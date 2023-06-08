@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "626507501180",
+    "project_id": "playme-21306",
+    "storage_bucket": "playme-21306.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626507501180:android:2c85246aa493d853d703f9",
+        "android_client_info": {
+          "package_name": "com.example.playme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626507501180-9m44iuqun0slo46og0sbln8fgt4c5d1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqQuqdEhL0FMRat4MkZUtbnVXgS4iDHCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626507501180-9m44iuqun0slo46og0sbln8fgt4c5d1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
