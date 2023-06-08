@@ -45,19 +45,27 @@ fun RegisterPage() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .background(DarkBlue),
+            .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text(text = "PlayMe",
+                modifier = Modifier.padding(16.dp,16.dp,16.dp,100.dp),
+                fontSize = 35.sp,
+                fontFamily = customFontFamily,
+                color = Color.Yellow
+            )
+
             TextField(
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Електронна адреса") },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
                     focusedIndicatorColor = Color.White,
@@ -66,7 +74,7 @@ fun RegisterPage() {
                 textStyle = MaterialTheme.typography.bodySmall.copy(
                     fontFamily = customFontFamily,
                     fontSize = 16.sp,
-                    color = Color.White
+                    color = Color.DarkGray
                 )
             )
 
@@ -76,8 +84,10 @@ fun RegisterPage() {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Пароль") },
-                modifier = Modifier.fillMaxWidth(),
                 visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
                     focusedIndicatorColor = Color.White,
@@ -86,7 +96,7 @@ fun RegisterPage() {
                 textStyle = MaterialTheme.typography.bodySmall.copy(
                     fontFamily = customFontFamily,
                     fontSize = 16.sp,
-                    color = Color.White
+                    color = Color.DarkGray
                 )
             )
 
@@ -96,8 +106,9 @@ fun RegisterPage() {
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
                 label = { Text("Підтвердіть пароль") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
                     focusedIndicatorColor = Color.White,
@@ -106,7 +117,7 @@ fun RegisterPage() {
                 textStyle = MaterialTheme.typography.bodySmall.copy(
                     fontFamily = customFontFamily,
                     fontSize = 16.sp,
-                    color = Color.White
+                    color = Color.DarkGray
                 )
             )
 
