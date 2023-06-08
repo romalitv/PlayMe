@@ -14,10 +14,10 @@ App now is still being developed so many function are now don`t implemented into
 
 Friend of mine are currently studying Figma and design web-applications so i asked her to do one for me :)<br/>
 
-Scetches:
-
-![](./readmeimg/2.png)  ![](./readmeimg/1.png)
-![](./readmeimg/3.png)  ![](./readmeimg/4.png)
+| Scetches:              |                |
+|------------------------|-------------------------|
+| ![](./readmeimg/5.png) | ![](./readmeimg/1.png)  |
+| ![](./readmeimg/3.png) | ![](./readmeimg/4.png)  |
 
 ### What programm will have in further development?
 
