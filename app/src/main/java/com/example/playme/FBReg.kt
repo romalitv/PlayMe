@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,29 +18,29 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
-@RequiresApi(Build.VERSION_CODES.Q)
-val customFontFamily = FontFamily(Font(R.font.michroma))
+val DarkBlue = Color(0xFF0A192F)
 
-
-@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun LoginPage(onRegisterClick: () -> Unit) {
+fun RegisterPage() {
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
+    var confirmPassword by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -56,11 +57,12 @@ fun LoginPage(onRegisterClick: () -> Unit) {
                 fontSize = 35.sp,
                 fontFamily = customFontFamily,
                 color = Color.Yellow
-                )
+            )
+
             TextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text("Електронна адреса") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -81,11 +83,32 @@ fun LoginPage(onRegisterClick: () -> Unit) {
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("Пароль") },
+                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                visualTransformation = PasswordVisualTransformation(),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.White,
+                    focusedIndicatorColor = Color.White,
+                    unfocusedIndicatorColor = Color.White
+                ),
+                textStyle = MaterialTheme.typography.bodySmall.copy(
+                    fontFamily = customFontFamily,
+                    fontSize = 16.sp,
+                    color = Color.DarkGray
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                label = { Text("Підтвердіть пароль") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
                     focusedIndicatorColor = Color.White,
@@ -101,43 +124,37 @@ fun LoginPage(onRegisterClick: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { signInWithEmail(context, auth, email, password) },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                onClick = { registerWithEmail(context, auth, email, password, confirmPassword) },
+                modifier = Modifier.align(Alignment.End),
             ) {
-                Text("Enter")
-            }
-
-            Button(
-                onClick = onRegisterClick,
-                modifier = Modifier.testTag("registerButton")
-            ) {
-                Text(text = "Реєстрація")
+                Text(
+                    text = "Зареєструватися",
+                    color = DarkBlue,
+                    fontFamily = customFontFamily,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }
 }
 
-private fun signInWithEmail(context: Context, auth: FirebaseAuth, email: String, password: String) {
-    auth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val user = auth.currentUser
-                Toast.makeText(context, "Успішний вхід: ${user?.email}", Toast.LENGTH_SHORT).show()
-            } else {
-                val message = task.exception?.message ?: "Помилка входу"
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+fun registerWithEmail(
+    context: Context,
+    auth: FirebaseAuth,
+    email: String,
+    password: String,
+    confirmPassword: String
+) {
+    if (password == confirmPassword) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(context, "Реєстрація успішна!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Помилка реєстрації: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-@Composable
-fun MainScreen() {
-    val showRegisterScreen = remember { mutableStateOf(false) }
-
-    if (showRegisterScreen.value) {
-        RegisterPage()
     } else {
-        LoginPage(onRegisterClick = { showRegisterScreen.value = true })
+        Toast.makeText(context, "Паролі не співпадають", Toast.LENGTH_SHORT).show()
     }
 }
