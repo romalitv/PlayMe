@@ -18,11 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -31,7 +33,7 @@ val customFontFamily = FontFamily(Font(R.font.michroma))
 @RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage() {
+fun LoginPage(onRegisterClick: () -> Unit) {
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
 
@@ -70,7 +72,7 @@ fun LoginPage() {
                 textStyle = MaterialTheme.typography.bodySmall.copy(
                     fontFamily = customFontFamily,
                     fontSize = 16.sp,
-                    color = Color.White
+                    color = Color.DarkGray
                 )
             )
 
@@ -92,7 +94,7 @@ fun LoginPage() {
                 textStyle = MaterialTheme.typography.bodySmall.copy(
                     fontFamily = customFontFamily,
                     fontSize = 16.sp,
-                    color = Color.White
+                    color = Color.DarkGray
                 )
             )
 
@@ -103,6 +105,13 @@ fun LoginPage() {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text("Enter")
+            }
+
+            Button(
+                onClick = onRegisterClick,
+                modifier = Modifier.testTag("registerButton")
+            ) {
+                Text(text = "Реєстрація")
             }
         }
     }
@@ -119,4 +128,16 @@ private fun signInWithEmail(context: Context, auth: FirebaseAuth, email: String,
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
+fun MainScreen() {
+    val showRegisterScreen = remember { mutableStateOf(false) }
+
+    if (showRegisterScreen.value) {
+        RegisterPage()
+    } else {
+        LoginPage(onRegisterClick = { showRegisterScreen.value = true })
+    }
 }
